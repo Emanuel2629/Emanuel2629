@@ -1,0 +1,57 @@
+version: 2.1
+
+executors:
+
+  my-custom-executor:
+
+    docker:
+
+      - image: cimg/base:stable
+
+      
+
+jobs:
+
+  my-job-name:
+
+    executor: my-custom-executor
+
+    steps:
+
+      - checkout
+
+      - run: |
+
+          version: 2.1
+
+          orbs:
+
+            windows: circleci/windows@2.4.0
+
+          jobs:
+
+            build-windows:
+
+              executor: windows/gpu-nvidia
+
+              steps:
+
+                - checkout
+
+                - run: systeminfo
+
+          workflows:
+
+            windows-workflow:
+
+              jobs:
+
+                - build-windows
+
+workflows:
+
+  my-custom-workflow:
+
+    jobs:
+
+      - my-job-name
